@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+PROJECT_PATH = os.path.abspath(os.curdir).replace('\\', '/')
+
+SASS_PROCESSOR_INCLUDE_DIRS = [
+    os.path.join(PROJECT_PATH, 'static/scss'),
+    os.path.join(PROJECT_PATH, 'node_modules'),
+]
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'acomapp',
+    'sass_processor',
 ]
 
 MIDDLEWARE = [
@@ -126,4 +133,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static_in_dev'),
+    os.path.join(BASE_DIR, 'static/scss'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
 )
